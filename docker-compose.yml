@@ -9,23 +9,18 @@ services:
       - "3000:3000"
     environment:
       - PORT=3000
-      - REDIS_HOST=dragonfly        
+      - REDIS_HOST=redis       
       - REDIS_PORT=6379
     depends_on:
-      - dragonfly
+      - redis
     restart: unless-stopped
     networks:
       - mcp-network
 
-  dragonfly:
-    image: docker.dragonflydb.io/dragonflydb/dragonfly:latest
+  redis:
+    image: redis:7-alpine
     ports:
       - "6379:6379"
     restart: unless-stopped
     networks:
       - mcp-network
-    command: ["--logtostderr", "--maxmemory=1gb"] 
-
-networks:
-  mcp-network:
-    driver: bridge
